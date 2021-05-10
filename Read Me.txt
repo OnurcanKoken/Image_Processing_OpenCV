@@ -1,0 +1,13 @@
+
+I have followed OpenCV courses, so there some references;
+- https://www.youtube.com/watch?v=oXlwWbU8l2o
+- https://github.com/jasmcaus/opencv-course
+
+You can also check:
+- https://docs.opencv.org/master/d2/d96/tutorial_py_table_of_contents_imgproc.html
+
+Note that I have changed some parts, so it is not exactly the same
+
+19.12.2020
+**************************************************************************
+
