@@ -52,7 +52,7 @@ while True:
     # otherwise, you wont be able to record
     # or you need to resize frame and insert that dimentions
     # into VideoWriter
-    height, weight, channel = frame.shape
+    height, width, channel = frame.shape
 
     # calculate fps
     new_frame_time = time.time()
@@ -78,7 +78,7 @@ while True:
 
             # you can record here by seperated files
             recorded_file_name = "capture_" + str(vid_i) + ".avi"
-            output = cv.VideoWriter(recorded_file_name, codec, fps, (weight, height))
+            output = cv.VideoWriter(recorded_file_name, codec, fps, (width, height))
             print("recording video" + str(vid_i))
             vid_i = vid_i + 1
 
