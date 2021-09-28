@@ -37,7 +37,7 @@ while ret:
     ret, frame = cap.read()
 
     # Calculate each second for the current frame
-    sec = currentFrame % fps
+    sec = int(currentFrame % fps)
     if sec == 0:
         second += 1
 
