@@ -1,4 +1,4 @@
-# Onurcan Köken 20.03.2021
+# Onurcan Köken 23.03.2022
 # References: https://gist.github.com/keithweaver/70df4922fec74ea87405b83840b45d57
 #             https://www.reddit.com/r/Python/comments/c9dkuj/how_to_get_fps_of_a_video_file/
 '''
@@ -7,6 +7,10 @@ Using OpenCV takes a mp4/mov/avi video and produces a number of images.
 Open the Extract_Video_to_EachFrame.py and edit the path to the video. Then run:
 $ python Extract_Video_to_EachFrame.py
 '''
+
+# In this second version is used in the case of having False ret frames at some parts
+# during extracting the frames from video, now it checks for 30 frames if they are all broken/empty or not
+
 import cv2
 import numpy as np
 import os
@@ -26,18 +30,32 @@ ret = True # make it False to learn only FPS
 
 # create a directory to store each frame
 try:
-    if not os.path.exists('../DEU_ROV_Team_2021/azure/data'):
-        os.makedirs('../DEU_ROV_Team_2021/azure/data')
+    if not os.path.exists('../HiWi_MOVE/data'):
+        os.makedirs('../HiWi_MOVE/data')
 except OSError:
     print ('Error: Creating directory of data')
 
 currentFrame = 0
+counterFlase = 0
 while ret:
     # Capture frame-by-frame
     ret, frame = cap.read()
 
+    # To stop duplicate images
+    currentFrame += 1
+
+    # the end or there are so many empty frames
+    if counterFlase >= 30:
+        ret = False
+        break
+
+    if ret == False:
+        counterFlase += 1
+        ret = True
+        continue
+
     # Calculate each second for the current frame
-    sec = int(currentFrame % fps)
+    sec = int((currentFrame-1) % fps)
     if sec == 0:
         second += 1
 
@@ -46,12 +64,10 @@ while ret:
     # not all of it, so you can edit here as you wish
     if sec == 0 or sec == 10 or sec == 20:
         # Saves image of the current frame in jpg file
-        name = './data/frame' + '_sec' + str(second) + '_' + str(currentFrame) + '.jpg'
+        name = './data/frame' + '_sec' + str(second) + '_' + str(currentFrame-1) + '.jpg'
         print('Creating...' + name)
         cv2.imwrite(name, frame)
-
-    # To stop duplicate images
-    currentFrame += 1
+    counterFlase = 0
 
 # When everything done, release the capture
 cap.release()
